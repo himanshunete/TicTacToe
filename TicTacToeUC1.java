@@ -1,6 +1,18 @@
-public class TicTacToeUC1{
-   public static void main(String[] args){
-   System.out.println(" Welcome to TicTacToe Game ")
+public class  TicTacToeUC1{
+   static char[] board =  new char[11] ;
+
+   public static void board(){
+      for ( int i=1; i< 11; i++){
+         System.out.println( board[i] );
+      }
 
    }
+
+   public static void main(String[] args){
+      board();
+   }
 }
+
+
+
+
