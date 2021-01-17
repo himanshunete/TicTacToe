@@ -1,7 +1,7 @@
 import java.util.Scanner;
 class TicTacToe{
-   public static String PLAYER_1 ;
-   public static char[] board =  new char[11] ;
+   public static String PLAYER_1 ; 
+   public static char[] board = { ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ' };
    public static final int LETTER_X = 0;
    public static final int LETTER_O = 1;
    public static final int PLAYER = 0;
@@ -16,14 +16,11 @@ class TicTacToe{
    public static final int index7 = 7;
    public static final int index8 = 8;
    public static final int index9 = 9;
+ 
+   public static final int HEAD = 0 ;
+   public static final int TAIL = 1 ;
+   public static final int toss = (int)Math.floor(Math.random() * 10) % 2;
 
-
-   static void createboard(){
-      for ( int i=1; i< 11; i++){
-         board[i] = ' ';
-         System.out.println( " empty space: " + board[i] );
-      }
-   }
    static void chooseletter(){
       Scanner choose=new Scanner(System.in);
       int letterComputer = (int)Math.floor(Math.random() * 10) % 2;
@@ -51,16 +48,11 @@ class TicTacToe{
    }
 
    static void showboard(){
-      System.out.println(" |---|---|---| ");
-      System.out.println( " |" +board[1]+ "   | "+ board[2]+ "  | " + board[3]+ "  | ");
-      System.out.println(" |---|---|---| ");
-      System.out.println( " |" +board[4]+ "   | "+ board[5]+ "  | " + board[6]+ "  | ");
-      System.out.println(" |---|---|---| ");
-      System.out.println( " |" +board[7]+ "   | "+ board[8]+ "  | " + board[9]+ "  | ");
-      System.out.println(" |---|---|---| ");
+      System.out.println("|"+board[1]+"       |"+board[2]+"       |"+board[3]+"       |");
+      System.out.println("|"+board[4]+"       |"+board[5]+"       |"+board[6]+"       |");
+      System.out.println("|"+board[7]+"       |"+board[8]+"       |"+board[9]+"       |");
    }
    static void toss(){
-      int toss = (int)Math.floor(Math.random() * 10) % 2;
       if ( PLAYER == toss ){
          System.out.println(" Player starts a Game ");
       }
@@ -70,56 +62,54 @@ class TicTacToe{
 
    }
    static void makeamove(){
-      createboard();
       char freeSpace = ' ' ;
       Scanner choose =new Scanner(System.in);      
-      char letter = choose.next().charAt(0);
       int location = choose.nextInt();       
       switch (location) {
          case index1 :
             if ( board[1] == freeSpace ){
-                  board[1] =  letter;
+                  board[1] =  'X';
             }
             break;
          
          case index2:
             if ( board[2] == freeSpace ){
-                  board[2] =  letter;
+                  board[2] =  'X';
             }
             break;
          case index3:
             if ( board[3] == freeSpace ){  
-                  board[3] =  letter;
+                  board[3] =  'X';
             }
             break;
          case index4:
             if ( board[4] == freeSpace ){
-                  board[4] =  letter;
+                  board[4] =  'X';
             }
             break;
          case index5:
             if ( board[5] == freeSpace ){
-                  board[5] =  letter;
+                  board[5] =  'X';
             }
             break;
          case index6:
             if ( board[6] == freeSpace ){ 
-                  board[6] =  letter;
+                  board[6] =  'X';
             }
             break;
          case index7:
             if ( board[7] == freeSpace ){
-                  board[7] =  letter;
+                  board[7] =  'X';
             }
             break;
          case index8:
             if ( board[8] == freeSpace ){   
-                  board[8] =  letter;
+                  board[8] =  'X';
             }
             break;
          case index9:
             if ( board[9] == freeSpace ){
-                  board[9] =  letter;
+                  board[9] =  'X';
             }
             break;
       }
@@ -129,7 +119,6 @@ class TicTacToe{
     static void computersmove(){
        char freeSpace = ' ' ;
        Scanner choose =new Scanner(System.in);      
-       int letter = (int)Math.floor(Math.random() * 10) % 2;
        int location = (int)Math.floor(Math.random() * 10) % 9 + 1;      
        switch (location) {
           case index1 :
@@ -189,98 +178,159 @@ class TicTacToe{
     } 
 
     static void turn(){
-       int i;
+       int i=0;;
        int j;
-       int a = 0;
-       int b = 1;
+       int n = 25;
+       final int a = 0;
+       final int b = 1;
        toss();
-       while ( i ){
-          if ( toss == 0 ){
+       if ( toss == HEAD ){
+          while ( i<n ){
              for ( j=0;j<2;j++ ){
                 switch ( j ){ 
-                   case a: 
+                   case a : 
+                      System.out.println( "Players move" );                         
                       makeamove();
-                      showboard();
-                      determineresult();
+                      resultplayer();
                       break;
                    case b :
+                      System.out.println( "Computer move ");
                       computersmove();
-                      showboard();
-                      determineresult();
+                      resultcomputer();
                       break;
                 }
+                showboard();
              }
+             i++; 
           }
-          else if ( toss == 1 ){
+       }
+       else if ( toss == TAIL){
+          while ( i<n ){
              for ( j=0;j<2;j++ ){
                 switch ( j ){
                    case a:
+                      System.out.println( "Computers move" );
                       computersmove();
-                      showboard();
-                      determineresult();
+                      resultcomputer();
                       break;
                    case b :
+                      System.out.println( "Players move ");
                       makeamove();
-                      showboard();
-                      determineresult();
+                      resultplayer();
                       break;
                 }
+                showboard(); 
              }
+             i++;   
           }
-
+       }
+       tie();
       
-          
-          i++ ;
-       } 
+      
     }
-    static void determineresult(){
 
-       if ( board[1] == board[2] && board[2] == board[3] ){
-          System.out.println( " Winner " );
-          System.exit(0);
-       }
-       else if ( board[4] == board[5] && board[5] == board[6] ){
-          System.out.println( " Winner " );
-          System.exit(0);
-
+    static void resultplayer(){
+       if ( board[1] == 'X' && board[2] == 'X' && board[3] == 'X'){
+           System.out.println( " Player is Winner " );
+           System.exit(0);
        }
 
-       else if ( board[7] == board[8] && board[8] == board[9] ){
-          System.out.println( " Winner " );
+       else if ( board[4] == 'X' && board[5] == 'X' && board[6] == 'X'){
+          System.out.println( " Player is Winner " );
           System.exit(0);
-
        }
-
-       else if ( board[1] == board[4] && board[4] == board[7] ){
-          System.out.println( " Winner " );
+       else if ( board[7] == 'X' && board[8] == 'X' && board[9] == 'X' ){
+          System.out.println( " Player is Winner " );
           System.exit(0);
 
        }
 
-       else  if ( board[2] == board[5] && board[5] == board[8] ){
-          System.out.println( " Winner " );
+       else if ( board[1] == 'X' && board[4] == 'X' && board[7] == 'X' ){
+          System.out.println( " Player is Winner " );
           System.exit(0);
 
        }
 
-       else if ( board[3] == board[6] && board[6] == board[9] ){
-          System.out.println( " Winner " );
+       else if ( board[2] == 'X' && board[5] == 'X' && board[8] == 'X' ){
+          System.out.println( " Player is Winner " );
           System.exit(0);
 
        }
 
-       else if ( board[1] == board[5] && board[5] == board[9] ){
-          System.out.println( " Winner " );
+       else  if ( board[3] == 'X' && board[6] == 'X' && board[9] == 'X' ){
+          System.out.println( " Player is Winner " );
+          System.exit(0);
+
+       }
+
+       else if ( board[3] == 'X' && board[5] == 'X' && board[7] == 'X' ){
+          System.out.println( " Player is Winner " );
+          System.exit(0);
+
+       }
+
+       else if ( board[1] == 'X' && board[5] == 'X' && board[9] == 'X' ){
+          System.out.println( " Player is Winner " );
           System.exit(0);
  
-      }
+       }
+    }
 
-       else if ( board[3] == board[5] && board[5] == board[7] ){
-          System.out.println( " Winner " );
+    static void resultcomputer(){
+       if ( board[1] == 'O' && board[2] == 'O' && board[3] == 'O'){
+          System.out.println( " Computer is Winner " );
+          System.exit(0);
+       }
+
+       else if ( board[4] == 'O' && board[5] == 'O' && board[6] == 'O'){
+          System.out.println( " Computer is Winner " );
+          System.exit(0);
+       }
+       else if ( board[7] == 'O' && board[8] == 'O' && board[9] == 'O' ){
+          System.out.println( " Computer is  Winner " );
           System.exit(0);
 
        }
 
+       else if ( board[1] == 'O' && board[4] == 'O' && board[7] == 'O' ){
+          System.out.println( " Computer is Winner " );
+          System.exit(0);
+
+       }
+
+       else if ( board[2] == 'O' && board[5] == 'O' && board[8] == 'O' ){
+          System.out.println( " Computer is Winner " );
+          System.exit(0);
+
+       }
+
+       else  if ( board[3] == 'O' && board[6] == 'O' && board[9] == 'O' ){
+          System.out.println( " Computer is Winner " );
+          System.exit(0);
+
+       }
+
+       else if ( board[3] == 'O' && board[5] == 'O' && board[7] == 'O' ){
+          System.out.println( " Computer is Winner " );
+          System.exit(0);
+
+       }
+
+       else if ( board[1] == 'O' && board[5] == 'O' && board[9] == 'O' ){
+          System.out.println( " Computer is Winner " );
+          System.exit(0);
+
+       } 
+    }
+
+    static void tie(){
+       if ( ( board[1] == 'X' || board[1] == 'O' ) && ( board[2] == 'X' || board[2] == 'O' ) && ( board[3] == 'X' || board[3] == 'O' ) && ( board[4] == 'X' || board[4] == 'O' ) && ( board[5] == 'X' || board[5] == 'O' ) && ( board[6] == 'X' || board[6] == 'O' ) && ( board[7] == 'X' || board[7] == 'O' ) && ( board[8] == 'X' || board[8] == 'O' ) && ( board[9] == 'X' || board[9] == 'O' )){
+            System.out.println( " Match is Tied " );
+            System.exit(0);
+       }
+
+       
+    }
 }
 public class TicTacToeUC8{
    public static void main(String[] args){
