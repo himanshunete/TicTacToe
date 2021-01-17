@@ -354,12 +354,12 @@ class Game{
 public class TicTacToe{
    public static void main(String[] args){
       Scanner play = new Scanner(System.in);
-      TicTacToe ticTacToeGame = new TicTacToe();
-      ticTacToeGame.turn();
+      Game ticTacToeGame = new Game();
+      Game.turn();
       String option = play.nextLine();
       if ( option == " yes"){    
          System.out.println(" Play Again ") ;
-         ticTacToeGame.turn();
+         Game.turn();
       }
 
 
